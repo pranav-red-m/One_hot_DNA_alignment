@@ -1,3 +1,5 @@
+#not important dont prioritize
+
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 

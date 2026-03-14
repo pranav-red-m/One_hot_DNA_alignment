@@ -1,38 +1,31 @@
-import numpy as np
-import matplotlib.pyplot as plt
-encoding = {
-    "A":[1,0,0,0],
-    "C":[0,1,0,0],
-    "G":[0,0,1,0],
-    "T":[0,0,0,1]
-} #encoding all the genome
+from similar import cosine_similarity, svd_fingerprint, svd_distance
 
-def encode(seq): #turn sequence of genomes to array of basis vectors
-    return np.array([encoding[x] for x in seq])
+def run_tests():
+    print("DNA Similarity Tests\n")
 
-def similarity(a,b): #sumof all points in dot product
-    return np.sum(a*b)
+    test_cases = [
+        ("ACGTACGT", "ACGTACGT"),   # identical
+        ("ACGTACGT", "TTTTTTTT"),   # very different
+        ("ACGTACGT", "TGCAACGT"),   # similar composition
+        ("ACGTACGTACGT", "ACGT"),       # mostly similar
+        ("ACGT", "TGCA")            # reversed order
+    ]
 
-#currently jsut do +1 for match ignore gaps and mismatches
-def check_similarity(seq1,seq2):
-    scores = []
-    for shift in range(-len(seq2),len(seq1)):
-        score = 0
-        for i in range(len(seq1)):
-            j = i-shift
-            if 0<=j and j<len(seq2):
-                score += np.dot(seq1[i],seq2[j])
-        scores.append(score)
-    return scores
+    for seq1, seq2 in test_cases:
+        print("===================================")
+        print(f"Sequence 1: {seq1}")
+        print(f"Sequence 2: {seq2}")
 
-#Test example
-seq1 = "ACGTAC"
-seq2 = "CGTACA"
-encoded_seq1 = encode(seq1)
-encoded_seq2 = encode(seq2)
-scores = check_similarity(encoded_seq1,encoded_seq2)
-print(scores)
+        cos = cosine_similarity(seq1, seq2)
+        svd1 = svd_fingerprint(seq1)
+        svd2 = svd_fingerprint(seq2)
+        dist = svd_distance(seq1, seq2)
 
-plt.plot(scores)
-plt.title("Bananas")
-plt.show()
+        print(f"Cosine Similarity : {cos:.4f}")
+        print(f"SVD Fingerprint 1 : {svd1}")
+        print(f"SVD Fingerprint 2 : {svd2}")
+        print(f"SVD Distance      : {dist:.4f}")
+        print()
+
+if __name__ == "__main__":
+    run_tests()
