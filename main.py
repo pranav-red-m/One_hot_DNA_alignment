@@ -1,5 +1,24 @@
 from similar import cosine_similarity, svd_fingerprint, svd_distance
 
+from alignment import align, format_alignment
+
+# dummy input to test the alignment function 
+seq1 = "ACGTAC"
+seq2 = "CGT"
+
+best_score, best_shift, scores = align(seq1, seq2)
+
+a1, a2 = format_alignment(seq1, seq2, best_shift)
+
+print("Best Alignment:\n")
+print(a1)
+print(a2)
+
+print("\nBest Score:", best_score)
+print("Best Shift:", best_shift)
+
+print("\n")
+
 def run_tests():
     print("DNA Similarity Tests\n")
 
@@ -29,3 +48,4 @@ def run_tests():
 
 if __name__ == "__main__":
     run_tests()
+    
