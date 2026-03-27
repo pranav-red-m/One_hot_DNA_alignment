@@ -1,6 +1,8 @@
 from similar import cosine_similarity, svd_fingerprint, svd_distance
 
 from alignment import align, format_alignment
+from graphing import plot_alignment, plot_heatmap
+
 
 test_cases = [
     ("ACGTACGT", "ACGTACGT"),   # identical
@@ -65,3 +67,10 @@ def run_tests():
 if __name__ == "__main__":
     run_tests()
     
+seq1 = "ACGTAC"
+seq2 = "CGT"
+
+plot_alignment(seq1, seq2)
+
+sequences = ["ACGTAC", "ACGTTC", "AGGTAC", "TTACGT"]
+plot_heatmap(sequences)
